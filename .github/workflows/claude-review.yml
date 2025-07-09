@@ -11,21 +11,28 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
-      actions: read
-      checks: read
-      metadata: read
+      actions: write
+      checks: write
+      deployments: write
       id-token: write
+      packages: write
+      pages: write
+      repository-projects: write
+      security-events: write
+      statuses: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          token: ${{ secrets.CLAUDE_GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Auto Review and Fix PR
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.CLAUDE_GITHUB_TOKEN }}
           allowed_tools: "Bash(git:*),View,GlobTool,GrepTool,Write,BatchTool"
           direct_prompt: |
             Please review this pull request and provide comprehensive feedback on:
