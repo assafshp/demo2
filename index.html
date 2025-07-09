@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer type="module"></script>
+</head>
+<body>
+    <header>
+        <h1>Web Calculator</h1>
+    </header>
+    <main>
+        <div class="calculator" role="application" aria-label="Calculator">
+            <div class="display" role="status" aria-live="polite">
+                <div class="previous-operand" aria-label="Previous Calculation"></div>
+                <div class="current-operand" aria-label="Current Input or Result"></div>
+            </div>
+            <div class="calculator-buttons">
+                <button class="clear" data-clear="all">C</button>
+                <button class="clear-entry" data-clear="entry">CE</button>
+                <button class="number" data-value="7">7</button>
+                <button class="number" data-value="8">8</button>
+                <button class="number" data-value="9">9</button>
+                <button class="operation" data-operation="/">÷</button>
+                <button class="number" data-value="4">4</button>
+                <button class="number" data-value="5">5</button>
+                <button class="number" data-value="6">6</button>
+                <button class="operation" data-operation="*">×</button>
+                <button class="number" data-value="1">1</button>
+                <button class="number" data-value="2">2</button>
+                <button class="number" data-value="3">3</button>
+                <button class="operation" data-operation="-">-</button>
+                <button class="number" data-value="0">0</button>
+                <button class="decimal" data-value=".">.</button>
+                <button class="equals" data-equals="=">=</button>
+                <button class="operation" data-operation="+">+</button>
+                <!-- Buttons will be added in subsequent tasks -->
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Web Calculator</p>
+    </footer>
+</body>
+</html> 

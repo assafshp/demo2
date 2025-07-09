@@ -1,0 +1,152 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 13,
+        "title": "Project Setup and Basic HTML Structure",
+        "description": "Initialize the project with the necessary files and implement the basic HTML structure for the calculator application.",
+        "details": "1. Create project directory structure\n2. Initialize Git repository\n3. Create index.html with proper HTML5 doctype and meta tags\n4. Set up basic semantic HTML structure:\n   - Header for calculator title\n   - Main section for calculator container\n   - Footer for any additional information\n5. Add basic accessibility attributes (aria-labels, roles)\n6. Include viewport meta tag for responsiveness\n7. Link to CSS and JavaScript files\n8. Add basic HTML structure for calculator components:\n   ```html\n   <div class=\"calculator\">\n     <div class=\"display\">\n       <div class=\"previous-operand\"></div>\n       <div class=\"current-operand\"></div>\n     </div>\n     <div class=\"calculator-buttons\">\n       <!-- Buttons will be added in subsequent tasks -->\n     </div>\n   </div>\n   ```",
+        "testStrategy": "1. Validate HTML using W3C Validator\n2. Test basic page loading in multiple browsers (Chrome, Firefox, Safari, Edge)\n3. Verify proper document structure using browser developer tools\n4. Check for any console errors on page load",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Implement Calculator UI Layout and Styling",
+        "description": "Create the visual layout of the calculator with CSS, including the display area and button grid with proper styling.",
+        "details": "1. Create styles.css file\n2. Implement CSS reset/normalize\n3. Define color variables and typography\n4. Style the calculator container with a grid or flexbox layout:\n   ```css\n   .calculator {\n     display: grid;\n     grid-template-columns: repeat(4, 1fr);\n     grid-gap: 10px;\n     max-width: 400px;\n     margin: 0 auto;\n     padding: 20px;\n     border-radius: 10px;\n     background-color: #f0f0f0;\n     box-shadow: 0 5px 10px rgba(0,0,0,0.2);\n   }\n   \n   .display {\n     grid-column: 1 / -1;\n     background-color: #fff;\n     padding: 20px;\n     text-align: right;\n     border-radius: 5px;\n     margin-bottom: 10px;\n     min-height: 60px;\n   }\n   ```\n5. Style calculator buttons with hover and active states\n6. Implement responsive design with media queries for different screen sizes\n7. Add visual feedback for button presses using :active pseudo-class\n8. Ensure sufficient color contrast for accessibility",
+        "testStrategy": "1. Test responsiveness across different viewport sizes (mobile, tablet, desktop)\n2. Verify button layout and alignment in different browsers\n3. Check hover and active states for all buttons\n4. Validate CSS using W3C CSS Validator\n5. Test color contrast using accessibility tools\n6. Verify the calculator maintains proper layout when display content changes",
+        "priority": "high",
+        "dependencies": [
+          13
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Implement Number Button Functionality",
+        "description": "Create the number buttons (0-9) and decimal point button, and implement the logic to display the input values on the calculator display.",
+        "details": "1. Add number buttons to HTML structure:\n   ```html\n   <button class=\"number\" data-value=\"0\">0</button>\n   <button class=\"number\" data-value=\"1\">1</button>\n   <!-- ... buttons 2-9 ... -->\n   <button class=\"decimal\" data-value=\".\">.</button>\n   ```\n2. Create script.js file and implement event listeners for number buttons:\n   ```javascript\n   // DOM elements\n   const numberButtons = document.querySelectorAll('.number');\n   const decimalButton = document.querySelector('.decimal');\n   const currentOperandDisplay = document.querySelector('.current-operand');\n   \n   // State variables\n   let currentOperand = '';\n   let previousOperand = '';\n   let operation = undefined;\n   \n   // Event listeners for number buttons\n   numberButtons.forEach(button => {\n     button.addEventListener('click', () => {\n       appendNumber(button.dataset.value);\n       updateDisplay();\n     });\n   });\n   \n   // Event listener for decimal button\n   decimalButton.addEventListener('click', () => {\n     if (currentOperand.includes('.')) return;\n     appendNumber('.');\n     updateDisplay();\n   });\n   \n   // Functions\n   function appendNumber(number) {\n     if (number === '0' && currentOperand === '0') return;\n     if (number !== '.' && currentOperand === '0') {\n       currentOperand = number;\n     } else {\n       currentOperand += number;\n     }\n   }\n   \n   function updateDisplay() {\n     currentOperandDisplay.textContent = currentOperand;\n   }\n   ```\n3. Implement input validation to prevent multiple decimal points\n4. Handle edge cases like leading zeros",
+        "testStrategy": "1. Test each number button to ensure it adds the correct digit to the display\n2. Verify decimal point can only be added once\n3. Test edge cases: \n   - Adding multiple digits\n   - Starting with decimal point\n   - Leading zeros handling\n4. Verify display updates correctly after each button press\n5. Test with rapid button presses to ensure all inputs are captured",
+        "priority": "high",
+        "dependencies": [
+          13,
+          14
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Implement Operation Button Functionality",
+        "description": "Create operation buttons (+, -, *, /) and implement the logic to capture and display the selected operation.",
+        "details": "1. Add operation buttons to HTML structure:\n   ```html\n   <button class=\"operation\" data-operation=\"+\">+</button>\n   <button class=\"operation\" data-operation=\"-\">-</button>\n   <button class=\"operation\" data-operation=\"*\">×</button>\n   <button class=\"operation\" data-operation=\"/\">÷</button>\n   ```\n2. Extend JavaScript to handle operations:\n   ```javascript\n   // DOM elements\n   const operationButtons = document.querySelectorAll('.operation');\n   const previousOperandDisplay = document.querySelector('.previous-operand');\n   \n   // Event listeners for operation buttons\n   operationButtons.forEach(button => {\n     button.addEventListener('click', () => {\n       if (currentOperand === '') return;\n       if (previousOperand !== '') {\n         compute();\n       }\n       chooseOperation(button.dataset.operation);\n       updateDisplay();\n     });\n   });\n   \n   // Functions\n   function chooseOperation(op) {\n     operation = op;\n     previousOperand = currentOperand;\n     currentOperand = '';\n   }\n   \n   function updateDisplay() {\n     currentOperandDisplay.textContent = currentOperand;\n     if (operation != null) {\n       previousOperandDisplay.textContent = `${previousOperand} ${operation}`;\n     } else {\n       previousOperandDisplay.textContent = '';\n     }\n   }\n   ```\n3. Update the display to show the current operation\n4. Handle cases where user changes operation before entering second number",
+        "testStrategy": "1. Test each operation button to ensure it correctly captures the operation\n2. Verify the display updates to show the first operand and operation\n3. Test changing operations before entering second operand\n4. Verify operation buttons are disabled when no first operand is entered\n5. Test the visual feedback when an operation is selected",
+        "priority": "high",
+        "dependencies": [
+          15
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 17,
+        "title": "Implement Equals Button and Calculation Logic",
+        "description": "Create the equals button and implement the core arithmetic calculation logic to perform operations and display results.",
+        "details": "1. Add equals button to HTML structure:\n   ```html\n   <button class=\"equals\" data-equals=\"=\">=</button>\n   ```\n2. Implement calculation logic in JavaScript:\n   ```javascript\n   // DOM elements\n   const equalsButton = document.querySelector('.equals');\n   \n   // Event listener for equals button\n   equalsButton.addEventListener('click', () => {\n     if (currentOperand === '' || previousOperand === '') return;\n     compute();\n     updateDisplay();\n   });\n   \n   // Calculation function\n   function compute() {\n     let computation;\n     const prev = parseFloat(previousOperand);\n     const current = parseFloat(currentOperand);\n     \n     if (isNaN(prev) || isNaN(current)) return;\n     \n     switch (operation) {\n       case '+':\n         computation = prev + current;\n         break;\n       case '-':\n         computation = prev - current;\n         break;\n       case '*':\n         computation = prev * current;\n         break;\n       case '/':\n         if (current === 0) {\n           currentOperand = 'Error: Division by zero';\n           previousOperand = '';\n           operation = undefined;\n           return;\n         }\n         computation = prev / current;\n         break;\n       default:\n         return;\n     }\n     \n     // Handle floating point precision issues\n     currentOperand = parseFloat(computation.toFixed(10)).toString();\n     operation = undefined;\n     previousOperand = '';\n   }\n   ```\n3. Handle floating-point precision issues using toFixed() for display\n4. Implement chained operations (result becomes first operand for next calculation)",
+        "testStrategy": "1. Test basic calculations for all four operations with integer values\n2. Test calculations with decimal values\n3. Test edge cases:\n   - Division by zero\n   - Very large numbers\n   - Very small numbers\n   - Negative numbers\n4. Verify floating-point precision handling (e.g., 0.1 + 0.2)\n5. Test chained operations (performing multiple calculations in sequence)\n6. Verify the display correctly shows the result after calculation",
+        "priority": "high",
+        "dependencies": [
+          16
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 18,
+        "title": "Implement Clear Functionality",
+        "description": "Create clear button(s) and implement the logic to reset the calculator state and display.",
+        "details": "1. Add clear buttons to HTML structure:\n   ```html\n   <button class=\"clear\" data-clear=\"all\">C</button>\n   <button class=\"clear-entry\" data-clear=\"entry\">CE</button>\n   ```\n2. Implement clear functionality in JavaScript:\n   ```javascript\n   // DOM elements\n   const clearButton = document.querySelector('.clear');\n   const clearEntryButton = document.querySelector('.clear-entry');\n   \n   // Event listeners for clear buttons\n   clearButton.addEventListener('click', () => {\n     clear();\n     updateDisplay();\n   });\n   \n   clearEntryButton.addEventListener('click', () => {\n     clearEntry();\n     updateDisplay();\n   });\n   \n   // Clear functions\n   function clear() {\n     currentOperand = '';\n     previousOperand = '';\n     operation = undefined;\n   }\n   \n   function clearEntry() {\n     currentOperand = '';\n   }\n   ```\n3. Implement visual feedback for clear buttons\n4. Ensure clear functions properly reset calculator state",
+        "testStrategy": "1. Test 'C' button to verify it completely resets the calculator state\n2. Test 'CE' button to verify it only clears the current entry\n3. Test clear functionality during different stages of calculation:\n   - After entering first number\n   - After selecting operation\n   - After entering second number\n   - After calculation\n4. Verify display updates correctly after clear operations\n5. Test clear after error states (e.g., division by zero)",
+        "priority": "medium",
+        "dependencies": [
+          15,
+          16,
+          17
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 19,
+        "title": "Implement Error Handling",
+        "description": "Implement comprehensive error handling for invalid operations and edge cases, with appropriate user feedback.",
+        "details": "1. Enhance the compute function to handle various error cases:\n   ```javascript\n   function compute() {\n     let computation;\n     const prev = parseFloat(previousOperand);\n     const current = parseFloat(currentOperand);\n     \n     if (isNaN(prev) || isNaN(current)) {\n       currentOperand = 'Error: Invalid input';\n       return;\n     }\n     \n     switch (operation) {\n       // ... existing cases ...\n       case '/':\n         if (current === 0) {\n           currentOperand = 'Error: Division by zero';\n           previousOperand = '';\n           operation = undefined;\n           return;\n         }\n         computation = prev / current;\n         break;\n     }\n     \n     // Check for overflow/underflow\n     if (!isFinite(computation)) {\n       currentOperand = 'Error: Result too large';\n       previousOperand = '';\n       operation = undefined;\n       return;\n     }\n     \n     // ... rest of function ...\n   }\n   ```\n2. Add visual styling for error messages in CSS\n3. Implement recovery from error states (clear on next button press)\n4. Add input validation to prevent invalid sequences of operations",
+        "testStrategy": "1. Test division by zero and verify appropriate error message\n2. Test overflow scenarios with very large numbers\n3. Test invalid input sequences (e.g., multiple operations without numbers)\n4. Verify recovery from error states works correctly\n5. Test that error messages are clearly visible and understandable\n6. Verify calculator can continue normal operation after an error",
+        "priority": "medium",
+        "dependencies": [
+          17,
+          18
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 20,
+        "title": "Implement Keyboard Support",
+        "description": "Add keyboard support to allow users to input numbers and operations using their physical keyboard.",
+        "details": "1. Implement keyboard event listeners:\n   ```javascript\n   document.addEventListener('keydown', handleKeyboardInput);\n   \n   function handleKeyboardInput(e) {\n     // Numbers 0-9\n     if (/^[0-9]$/.test(e.key)) {\n       e.preventDefault();\n       appendNumber(e.key);\n       updateDisplay();\n     }\n     // Operators\n     else if (['+', '-', '*', '/'].includes(e.key)) {\n       e.preventDefault();\n       chooseOperation(e.key);\n       updateDisplay();\n     }\n     // Decimal point\n     else if (e.key === '.' || e.key === ',') {\n       e.preventDefault();\n       if (!currentOperand.includes('.')) {\n         appendNumber('.');\n         updateDisplay();\n       }\n     }\n     // Equals (Enter or =)\n     else if (e.key === '=' || e.key === 'Enter') {\n       e.preventDefault();\n       if (currentOperand === '' || previousOperand === '') return;\n       compute();\n       updateDisplay();\n     }\n     // Clear (Escape or Delete)\n     else if (e.key === 'Escape' || e.key === 'Delete') {\n       e.preventDefault();\n       clear();\n       updateDisplay();\n     }\n     // Backspace\n     else if (e.key === 'Backspace') {\n       e.preventDefault();\n       if (currentOperand.length > 0) {\n         currentOperand = currentOperand.slice(0, -1);\n         updateDisplay();\n       }\n     }\n   }\n   ```\n2. Add visual feedback for keyboard inputs (highlight corresponding button)\n3. Implement backspace functionality for correcting input\n4. Add keyboard shortcuts help information in UI or tooltip",
+        "testStrategy": "1. Test all numeric keys (0-9) for correct input\n2. Test operation keys (+, -, *, /) for correct operation selection\n3. Test Enter and = keys for calculation execution\n4. Test Escape and Delete keys for clear functionality\n5. Test Backspace for deleting the last input\n6. Verify visual feedback when using keyboard\n7. Test edge cases like rapid key presses and key combinations",
+        "priority": "medium",
+        "dependencies": [
+          15,
+          16,
+          17,
+          18
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 21,
+        "title": "Implement Responsive Design and Cross-Browser Compatibility",
+        "description": "Enhance the calculator's responsiveness across different devices and ensure consistent functionality across major browsers.",
+        "details": "1. Refine responsive design with media queries:\n   ```css\n   /* Base styles for mobile first approach */\n   .calculator {\n     width: 100%;\n     max-width: 300px;\n     /* other styles */\n   }\n   \n   /* Tablet styles */\n   @media (min-width: 768px) {\n     .calculator {\n       max-width: 350px;\n     }\n     .calculator button {\n       font-size: 1.2rem;\n       padding: 15px;\n     }\n   }\n   \n   /* Desktop styles */\n   @media (min-width: 1024px) {\n     .calculator {\n       max-width: 400px;\n     }\n     .calculator button {\n       font-size: 1.5rem;\n       padding: 20px;\n     }\n   }\n   ```\n2. Add touch-friendly styling for mobile devices\n3. Implement browser-specific CSS prefixes where needed\n4. Test and fix any cross-browser inconsistencies\n5. Optimize for different screen orientations (portrait/landscape)\n6. Enhance accessibility with focus states and keyboard navigation",
+        "testStrategy": "1. Test on multiple devices (phone, tablet, desktop) with different screen sizes\n2. Test in all major browsers (Chrome, Firefox, Safari, Edge)\n3. Verify touch interactions work correctly on mobile devices\n4. Test different screen orientations\n5. Validate accessibility using screen readers and keyboard navigation\n6. Perform browser compatibility testing using tools like BrowserStack\n7. Test with different zoom levels and font sizes",
+        "priority": "medium",
+        "dependencies": [
+          14
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 22,
+        "title": "Final Testing, Bug Fixes, and Deployment",
+        "description": "Perform comprehensive testing, fix any remaining bugs, and deploy the calculator application to a static hosting service.",
+        "details": "1. Conduct comprehensive testing of all calculator features\n2. Create a test plan covering all user flows and edge cases\n3. Fix any identified bugs or issues\n4. Optimize code:\n   - Minify CSS and JavaScript\n   - Optimize asset loading\n   - Remove any console logs or debugging code\n5. Add final documentation:\n   - Add comments to code\n   - Create a README.md file with project information\n6. Prepare for deployment:\n   ```bash\n   # Example deployment to GitHub Pages\n   git add .\n   git commit -m \"Final version ready for deployment\"\n   git push origin main\n   ```\n7. Deploy to static hosting service (GitHub Pages, Netlify, or Vercel):\n   - Set up hosting account if needed\n   - Configure deployment settings\n   - Deploy application\n8. Verify deployed application works correctly",
+        "testStrategy": "1. Perform end-to-end testing of all calculator functionality\n2. Test all user flows identified in the PRD\n3. Verify all error cases are handled appropriately\n4. Test performance and loading time\n5. Conduct final cross-browser and cross-device testing\n6. Verify the deployed application works correctly in production environment\n7. Test with real users if possible for final feedback",
+        "priority": "high",
+        "dependencies": [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "status": "done",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-09T12:02:04.868Z",
+      "updated": "2025-07-09T12:18:13.921Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
