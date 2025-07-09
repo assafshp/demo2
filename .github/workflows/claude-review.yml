@@ -24,9 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
           token: ${{ secrets.CLAUDE_GITHUB_TOKEN }}
-          persist-credentials: true
 
       - name: Auto Review and Fix PR
         uses: anthropics/claude-code-action@beta
